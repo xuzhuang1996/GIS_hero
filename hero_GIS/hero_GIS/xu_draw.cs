@@ -176,7 +176,7 @@ namespace hero_GIS
                 show[i] = true;
                 for (int j = 0; j < screen_point[i].Length; j++)   
                 {
-                    //g.DrawPolygon(Pens.Red, screen_point[i][j]);
+                    
                     draw_by_points(xu_pen, screen_point[i][j], shp_type[i], g); 
                 }
 
