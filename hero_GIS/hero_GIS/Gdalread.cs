@@ -163,6 +163,7 @@ namespace hero_GIS
         /// 
         public wkbGeometryType get_shp_Type() {
             return oLayer.GetGeomType();
+            
         }
 
         //获取一个图层的所有要素的点的坐标，返回数组
@@ -174,7 +175,7 @@ namespace hero_GIS
             {
                 Feature oFeature = null;
                 oFeature = oLayer.GetFeature(feature_index);//得到第feature_index个要素对象
-
+                
                 Geometry oGeometry = oFeature.GetGeometryRef();
                 
                 wkbGeometryType oGeometryType = oGeometry.GetGeometryType();
@@ -185,6 +186,7 @@ namespace hero_GIS
                             p[feature_index] = new Point[oGeometry.GetBoundary().GetPointCount()];//一个要素里面的所有点
                             for (int i = 0; i < oGeometry.GetBoundary().GetPointCount(); i++)
                             {
+                                
                                 p[feature_index][i].X = Convert.ToInt32(oGeometry.GetBoundary().GetX(i));
                                 p[feature_index][i].Y = Convert.ToInt32(oGeometry.GetBoundary().GetY(i));
                             }

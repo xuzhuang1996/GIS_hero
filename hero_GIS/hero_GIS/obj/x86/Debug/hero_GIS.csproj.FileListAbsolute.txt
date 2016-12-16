@@ -10,3 +10,15 @@ c:\users\xu\documents\visual studio 2010\Projects\hero_GIS\hero_GIS\bin\Debug\gd
 c:\users\xu\documents\visual studio 2010\Projects\hero_GIS\hero_GIS\bin\Debug\ogr_csharp.dll
 c:\users\xu\documents\visual studio 2010\Projects\hero_GIS\hero_GIS\bin\Debug\osr_csharp.dll
 c:\users\xu\documents\visual studio 2010\Projects\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.csprojResolveAssemblyReference.cache
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.exe
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.pdb
+F:\mygitwork\hero_GIS\hero_GIS\bin\Debug\hero_GIS.exe
+F:\mygitwork\hero_GIS\hero_GIS\bin\Debug\hero_GIS.pdb
+F:\mygitwork\hero_GIS\hero_GIS\bin\Debug\gdalconst_csharp.dll
+F:\mygitwork\hero_GIS\hero_GIS\bin\Debug\gdal_csharp.dll
+F:\mygitwork\hero_GIS\hero_GIS\bin\Debug\ogr_csharp.dll
+F:\mygitwork\hero_GIS\hero_GIS\bin\Debug\osr_csharp.dll
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.csprojResolveAssemblyReference.cache
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.Form1.resources
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.Properties.Resources.resources
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.csproj.GenerateResource.Cache
