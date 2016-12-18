@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("图层");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("图层");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.添加图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -137,11 +137,11 @@
             this.treeView.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.treeView.Location = new System.Drawing.Point(14, 86);
             this.treeView.Name = "treeView";
-            treeNode1.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode1.Name = "节点1";
-            treeNode1.Text = "图层";
+            treeNode2.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode2.Name = "节点1";
+            treeNode2.Text = "图层";
             this.treeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode2});
             this.treeView.Size = new System.Drawing.Size(122, 338);
             this.treeView.TabIndex = 2;
             this.treeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCheck);
@@ -183,7 +183,7 @@
             // 
             this.button1.BackColor = System.Drawing.SystemColors.Window;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(27, 28);
+            this.button1.Location = new System.Drawing.Point(25, 28);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(26, 31);
             this.button1.TabIndex = 4;
@@ -194,7 +194,7 @@
             // 
             this.full_extent.BackColor = System.Drawing.SystemColors.Window;
             this.full_extent.Image = ((System.Drawing.Image)(resources.GetObject("full_extent.Image")));
-            this.full_extent.Location = new System.Drawing.Point(59, 28);
+            this.full_extent.Location = new System.Drawing.Point(57, 28);
             this.full_extent.Name = "full_extent";
             this.full_extent.Size = new System.Drawing.Size(26, 31);
             this.full_extent.TabIndex = 5;
@@ -223,18 +223,19 @@
             // 
             this.button2.BackColor = System.Drawing.SystemColors.Window;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(91, 28);
+            this.button2.Location = new System.Drawing.Point(89, 28);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(26, 31);
             this.button2.TabIndex = 8;
             this.button2.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
             this.button3.BackColor = System.Drawing.SystemColors.Window;
             this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.Location = new System.Drawing.Point(123, 28);
+            this.button3.Location = new System.Drawing.Point(121, 28);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(26, 31);
             this.button3.TabIndex = 6;

@@ -12,7 +12,6 @@ namespace hero_GIS
 {
     public partial class Form1 : Form
     {
-        //private xu_draw hero;//视图对象
         private All_Layers  all_hero;//视图对象
         public int type;
         public Graphics g;
@@ -20,7 +19,6 @@ namespace hero_GIS
         public Form1()
         {
             InitializeComponent();
-            //hero=new xu_draw(panel1.Height);
             all_hero = new All_Layers(panel1);
             g=  panel1.CreateGraphics();
             type = 0;
@@ -38,15 +36,12 @@ namespace hero_GIS
             ofd.Filter = "shapefile文件|*.shp|所有文件|*.*";
             //展示对话框
             ofd.ShowDialog();
-
             //获得在打开对话框中选中文件的路径
             string sShpFileName = ofd.FileName; 
             if (sShpFileName == "")
             {
                 return;
             }
-            
-
             Gdalread m_Shp = new Gdalread();
             // 初始化GDAL和OGR
             m_Shp.InitinalGdal();
@@ -60,8 +55,6 @@ namespace hero_GIS
             layer.geo_point = m_Shp.GetGeometry();
 
             all_hero.addLayer(layer);
-            //hero.addLayer(Group);
-            //hero.shp_type.Add(m_Shp.get_shp_Type());//获取图层类型信息
             //目录树的操作
             TreeNode tn_root = treeView.Nodes[0];
             tn_root.Checked = true;
@@ -80,23 +73,6 @@ namespace hero_GIS
             
             all_hero.resetLayer(panel1.Width, panel1.Height, who_true);
             all_hero.drawLayer(g);
-            //hero.resetLayer(panel1.Width,panel1.Height,who_true);
-            //hero.drawLayer(panel1);
-
-            
-
-            
-
-
-            //Point[][] screen = xu_where(Group, this.panel1.Width, this.panel1.Height, all_point_count);
-            /*
-            Graphics g = panel1.CreateGraphics();
-            for (int i = 0; i < Group.Length; i++)
-            {
-     
-                g.DrawPolygon(Pens.Red, screen[i]);
-            }
-            */
 
 
 
@@ -116,8 +92,6 @@ namespace hero_GIS
             foreach (TreeNode node in treeView.Nodes[0].Nodes)
             {
                 
-                //if (node.Checked == false) hero.checkbox_clear(node.Index, panel1);
-                //else if (node.Checked==true) hero.checkbox_add(node.Index, panel1);
                 if (node.Checked == false) all_hero.checkbox_clear(node.Index, g);
                 else if (node.Checked == true) all_hero.checkbox_add(node.Index, g);
             }
@@ -133,8 +107,6 @@ namespace hero_GIS
             if (tn.Index>=0)
             {
                 all_hero.removeLayer(tn.Index);
-                //hero.removeLayer(tn.Index);
-                //hero.drawLayer(panel1);
                 all_hero.drawLayer(g);
                 tn.Remove();
             }
@@ -147,7 +119,6 @@ namespace hero_GIS
         private void full_extent_Click(object sender, EventArgs e)
         {
             type = 2;
-            Graphics g = panel1.CreateGraphics();
             g.Clear(panel1.BackColor);
             List<int> who_true = new List<int>();
             foreach (TreeNode node in treeView.Nodes[0].Nodes)
@@ -190,14 +161,27 @@ namespace hero_GIS
 
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
-            m.mouseup(e);//获取当前移动结束点
-            all_hero.move(m.up);//计算设备坐标
-            all_hero.drawLayer(g);
+            if (type == 1)
+            {
+                m.mouseup(e);//获取当前移动结束点
+                all_hero.move(m.up.X,m.up.Y);//计算设备坐标
+                all_hero.drawLayer(g);
+            }
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             m.mousedown(e);
+            if (type == 3) {
+                all_hero.zoom(e.Location);
+                all_hero.drawLayer(g);
+            
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            type = 3;//放大
         }
 
 

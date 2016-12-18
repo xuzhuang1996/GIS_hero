@@ -35,6 +35,11 @@ namespace hero_GIS
                     down = e.Location;
                     break;
                 }
+                case 2:
+                {
+                    down = e.Location;
+                    break;
+                }
 
             }
         }
@@ -60,9 +65,7 @@ namespace hero_GIS
 
             if (type == 1 && e.Location != down)
             {
-                up.X = e.Location.X - down.X;
-                up.Y = e.Location.Y - down.Y;
-                down = e.Location;
+
                 return true;
             }
             else return false;
