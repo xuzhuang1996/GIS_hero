@@ -162,13 +162,22 @@ namespace hero_GIS
         /// <returns></returns>
         /// 
         public wkbGeometryType get_shp_Type() {
-            return oLayer.GetGeomType();
+            if (oLayer != null)
+                return oLayer.GetGeomType();
+            else {
+                MessageBox.Show("无法读取该图层");
+                return wkbGeometryType.wkbUnknown;
+            }
             
         }
 
         //获取一个图层的所有要素的点的坐标，返回数组
         public Point [][] GetGeometry()
         {
+            if (oLayer == null) {
+                MessageBox.Show("无法读取该图层"); 
+                return null;
+            }
             int iFeatureCout = oLayer.GetFeatureCount(0);
             Point[][] p = new Point[iFeatureCout][];
             for (int feature_index = 0; feature_index < iFeatureCout; feature_index++)

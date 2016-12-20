@@ -11,11 +11,14 @@ namespace hero_GIS
 {
     public class xu_Layer
     {
+        //创建时添加
         public int Layer_ID;
         public string Layer_Name;
+        public wkbGeometryType Layer_type;//图层类型
+        //交互式添加
         public bool checkbox;//图层显示与否
         public bool Layet_edit;//图层编辑与否
-        public wkbGeometryType Layer_type;//图层类型
+        
         public Pen Layer_pen;//图层画笔
         public Point[][] geo_point;//逻辑真实坐标
         public Point[][] screen_point;//显示在屏幕上的坐标
@@ -47,8 +50,6 @@ namespace hero_GIS
     public class All_Layers {
         public List<xu_Layer> allLayers;//存放所有图层
         public int Layer_count;//图层数
-        public int adjust_x;//用于调整到屏幕中间的值
-        public int adjust_y;
         public double scale;//每像素代表多少米
         public Point base_point;//左上角的真实坐标
         public Pen clear_color;//画板背景色
@@ -59,8 +60,6 @@ namespace hero_GIS
             allLayers = new List<xu_Layer>();
             Layer_count = 0;
             scale = 1.0;
-            adjust_x = 0;
-            adjust_y = 0;
             base_point = new Point(0, panel.Height);//左上角原点坐标
             clear_color = new Pen(panel.BackColor);
             yuan_screen = new Point(Convert.ToInt32(panel.Width / 2.0), Convert.ToInt32(panel.Height / 2.0));
@@ -250,44 +249,24 @@ namespace hero_GIS
             Point yuan_geo = new Point();
             yuan_geo.X = Convert.ToInt32((double)recltangle_width / scale / 2.0);//获取当前图层所代表的外包矩形范围的中心点
             yuan_geo.Y = Convert.ToInt32((double)recltangle_height / scale / 2.0);
-            adjust_x = yuan_screen.X - yuan_geo.X;//将其调整到中间的调整值
-            adjust_y = yuan_geo.Y-yuan_screen.Y;
-            /*for (int iLayer = 0; iLayer < Layer_count; iLayer++)
-            {
-                for (int i0 = 0; i0 < allLayers[iLayer].geo_point.Length; i0++)
-                {
-                    for (int j0 = 0; j0 < allLayers[iLayer].geo_point[i0].Length; j0++)
-                    {
-                        allLayers[iLayer].screen_point[i0][j0].X = Convert.ToInt32((Convert.ToDouble(allLayers[iLayer].geo_point[i0][j0].X - x[0])) / scale + (double)adjust_x);
-                        allLayers[iLayer].screen_point[i0][j0].Y = Convert.ToInt32((Convert.ToDouble(y[y.Length - 1] - allLayers[iLayer].geo_point[i0][j0].Y)) / scale - (double)adjust_y);
-
-                    }
-                }
-            }*/
+            int adjust_x = yuan_screen.X - yuan_geo.X;//将其调整到中间的调整值
+            int adjust_y = yuan_geo.Y-yuan_screen.Y;
 
             base_point.X = x[0] - Convert.ToInt32((double)adjust_x * scale);//获取左上角原点坐标
-            base_point.Y = y[y.Length - 1] - Convert.ToInt32((double)adjust_y * scale);
+            base_point.Y = y[y.Length - 1] - Convert.ToInt32((double)adjust_y * scale);//还没弄清楚为啥减，虽然效果是对的
             calculate_screen_by_basepoint();
         }
 
         //移动函数,其实是坐标轴在往手势的相反方向移动//////////////////////////////////////////////////////////////////////////////////////////////
         public void move(int change_x,int change_y)
         {
-            /*
-            for (int i = 0; i < Layer_count; i++)                              //首先改变屏幕坐标
-                for (int j = 0; j <allLayers[i].screen_point.Length; j++)
-                    for (int k = 0; k < allLayers[i].screen_point[j].Length; k++)
-                    {
-                        allLayers[i].screen_point[j][k].X += change.X;
-                        allLayers[i].screen_point[j][k].Y += change.Y;
-                    }*/
             //改变左上角的真实坐标
             base_point.X -= Convert.ToInt32(scale * (double)change_x);
             base_point.Y += Convert.ToInt32(scale * (double)change_y);
             calculate_screen_by_basepoint();
 
         }
-        //坐标转换，不知道对不对，测试时候需要注意
+        //坐标转换，测试时候需要注意
         public Point screen_TO_geo(Point screen) {
             screen.X = Convert.ToInt32((double)screen.X * scale) + base_point.X;
             screen.Y = base_point.Y - Convert.ToInt32((double)(screen.Y) * scale);
@@ -302,14 +281,21 @@ namespace hero_GIS
 
         }
         //根据倍数缩放
-        public void zoom(Point change) {
-            int x=  yuan_screen.X - change.X;
-            int y = yuan_screen.Y - change.Y;
-            change = screen_TO_geo(change);//将鼠标点击位置作为屏幕中点，获取其地理位置
-            move(x,y);//根据鼠标的位置进行移动后再进行缩放
-            scale *= 0.8;
-            base_point.X = change.X - Convert.ToInt32(scale * (double)yuan_screen.X);
-            base_point.Y = change.Y + Convert.ToInt32(scale * (double)yuan_screen.Y);
+        public void zoom(Point change,bool big) {
+            int x=  change.X;
+            int y = change.Y;
+            change = screen_TO_geo(change);//根据鼠标点击位置获取其地理位置
+           
+            if (big == true)
+            {
+                scale *= 0.8;
+            }
+            else {
+                scale /= 0.8;
+            
+            }
+            base_point.X = change.X - Convert.ToInt32(scale * (double)x);//根据鼠标地理位置以及屏幕坐标，计算左上角坐标
+            base_point.Y = change.Y + Convert.ToInt32(scale * (double)y);
             calculate_screen_by_basepoint();
         
         }
