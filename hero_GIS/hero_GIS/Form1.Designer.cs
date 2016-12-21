@@ -52,6 +52,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.属性ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.输入点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.输入线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.输入区ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.要素编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.开始编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.结束编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button4 = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
@@ -78,6 +86,7 @@
             this.新建图层ToolStripMenuItem.Name = "新建图层ToolStripMenuItem";
             this.新建图层ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.新建图层ToolStripMenuItem.Text = "新建图层";
+            this.新建图层ToolStripMenuItem.Click += new System.EventHandler(this.新建图层ToolStripMenuItem_Click);
             // 
             // 重命名ToolStripMenuItem
             // 
@@ -106,18 +115,24 @@
             // 
             // 点编辑ToolStripMenuItem
             // 
+            this.点编辑ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.输入点ToolStripMenuItem});
             this.点编辑ToolStripMenuItem.Name = "点编辑ToolStripMenuItem";
             this.点编辑ToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
             this.点编辑ToolStripMenuItem.Text = "点编辑";
             // 
             // 线编辑ToolStripMenuItem
             // 
+            this.线编辑ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.输入线ToolStripMenuItem});
             this.线编辑ToolStripMenuItem.Name = "线编辑ToolStripMenuItem";
             this.线编辑ToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
             this.线编辑ToolStripMenuItem.Text = "线编辑";
             // 
             // 区编辑ToolStripMenuItem
             // 
+            this.区编辑ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.输入区ToolStripMenuItem});
             this.区编辑ToolStripMenuItem.Name = "区编辑ToolStripMenuItem";
             this.区编辑ToolStripMenuItem.Size = new System.Drawing.Size(56, 21);
             this.区编辑ToolStripMenuItem.Text = "区编辑";
@@ -162,9 +177,11 @@
             // 
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.移除ToolStripMenuItem,
-            this.打开属性表ToolStripMenuItem});
+            this.打开属性表ToolStripMenuItem,
+            this.属性ToolStripMenuItem,
+            this.要素编辑ToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(137, 48);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(137, 92);
             // 
             // 移除ToolStripMenuItem
             // 
@@ -242,12 +259,69 @@
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // 属性ToolStripMenuItem
+            // 
+            this.属性ToolStripMenuItem.Name = "属性ToolStripMenuItem";
+            this.属性ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.属性ToolStripMenuItem.Text = "属性";
+            // 
+            // 输入点ToolStripMenuItem
+            // 
+            this.输入点ToolStripMenuItem.Name = "输入点ToolStripMenuItem";
+            this.输入点ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.输入点ToolStripMenuItem.Text = "输入点";
+            // 
+            // 输入线ToolStripMenuItem
+            // 
+            this.输入线ToolStripMenuItem.Name = "输入线ToolStripMenuItem";
+            this.输入线ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.输入线ToolStripMenuItem.Text = "输入线";
+            // 
+            // 输入区ToolStripMenuItem
+            // 
+            this.输入区ToolStripMenuItem.Name = "输入区ToolStripMenuItem";
+            this.输入区ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.输入区ToolStripMenuItem.Text = "输入区";
+            // 
+            // 要素编辑ToolStripMenuItem
+            // 
+            this.要素编辑ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.开始编辑ToolStripMenuItem,
+            this.结束编辑ToolStripMenuItem});
+            this.要素编辑ToolStripMenuItem.Name = "要素编辑ToolStripMenuItem";
+            this.要素编辑ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.要素编辑ToolStripMenuItem.Text = "要素编辑";
+            // 
+            // 开始编辑ToolStripMenuItem
+            // 
+            this.开始编辑ToolStripMenuItem.Name = "开始编辑ToolStripMenuItem";
+            this.开始编辑ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.开始编辑ToolStripMenuItem.Text = "开始编辑";
+            // 
+            // 结束编辑ToolStripMenuItem
+            // 
+            this.结束编辑ToolStripMenuItem.Name = "结束编辑ToolStripMenuItem";
+            this.结束编辑ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.结束编辑ToolStripMenuItem.Text = "结束编辑";
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.SystemColors.Window;
+            this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
+            this.button4.Location = new System.Drawing.Point(153, 28);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(26, 31);
+            this.button4.TabIndex = 9;
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(859, 521);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label2);
@@ -261,6 +335,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -294,6 +369,14 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ToolStripMenuItem 输入点ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 输入线ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 输入区ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 属性ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 要素编辑ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 开始编辑ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 结束编辑ToolStripMenuItem;
+        private System.Windows.Forms.Button button4;
     }
 }
 

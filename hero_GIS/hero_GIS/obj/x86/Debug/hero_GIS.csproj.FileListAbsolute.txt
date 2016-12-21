@@ -22,3 +22,5 @@ F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.csprojResolveAssemblyRefer
 F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.Form1.resources
 F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.Properties.Resources.resources
 F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.csproj.GenerateResource.Cache
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.new_layer.resources
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.LogIn.resources

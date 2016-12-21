@@ -15,6 +15,7 @@ namespace hero_GIS
         public int Layer_ID;
         public string Layer_Name;
         public wkbGeometryType Layer_type;//图层类型
+        public string spatial_reference;
         //交互式添加
         public bool checkbox;//图层显示与否
         public bool Layet_edit;//图层编辑与否
@@ -37,9 +38,12 @@ namespace hero_GIS
         //获取当前图层的点的个数
         public int all_points_count() { 
             int count=0;
-            for (int i = 0; i < geo_point.Length; i++)
-                for (int j = 0; j < geo_point[i].Length; j++)
-                    count++;
+            if (geo_point != null)
+            {
+                for (int i = 0; i < geo_point.Length; i++)
+                    for (int j = 0; j < geo_point[i].Length; j++)
+                        count++;
+            }
             return count;
         
         }
@@ -55,7 +59,8 @@ namespace hero_GIS
         public Pen clear_color;//画板背景色
         public Point yuan_screen;//中心设备坐标
 
-        public All_Layers(Panel panel)//初始化
+        //public All_Layers(Panel panel)//初始化
+        public All_Layers(Control panel)//初始化
         {
             allLayers = new List<xu_Layer>();
             Layer_count = 0;
@@ -74,10 +79,14 @@ namespace hero_GIS
                 return false;
             }
             allLayers.Add(layer);
-            allLayers[Layer_count].screen_point = new Point[allLayers[Layer_count].geo_point.Length][];
-            for (int i = 0; i < allLayers[Layer_count].screen_point.Length; i++)
+            //当已经添加的图层已经有地理信息的时候
+            if (allLayers[Layer_count].geo_point != null)
             {
-                allLayers[Layer_count].screen_point[i] = new Point[allLayers[Layer_count].geo_point[i].Length];//每个要素有几个点
+                allLayers[Layer_count].screen_point = new Point[allLayers[Layer_count].geo_point.Length][];
+                for (int i = 0; i < allLayers[Layer_count].screen_point.Length; i++)
+                {
+                    allLayers[Layer_count].screen_point[i] = new Point[allLayers[Layer_count].geo_point[i].Length];//每个要素有几个点
+                }
             }
             Layer_count++;
             return true;
@@ -102,7 +111,7 @@ namespace hero_GIS
         //绘图函数
         public void drawLayer(Graphics g)
         {
-            g.Clear(clear_color.Color);//放在外面自己做
+            g.Clear(clear_color.Color);
             if (Layer_count == 0)
             {
                 MessageBox.Show("当前无图层2");
@@ -113,7 +122,7 @@ namespace hero_GIS
             {
 
                 for (int i = 0; i < Layer_count; i++)
-                    if (allLayers[i].checkbox)
+                    if (allLayers[i].checkbox && allLayers[i].screen_point!=null)
                     {
                         for (int j = 0; j < allLayers[i].screen_point.Length; j++)
                             draw_by_points(allLayers[i].Layer_pen, allLayers[i].screen_point[j], allLayers[i].Layer_type, g);
@@ -125,7 +134,7 @@ namespace hero_GIS
         }
 
         //根据点来绘图
-        public void draw_by_points(Pen p, Point[] points, wkbGeometryType type, Graphics g)
+        private void draw_by_points(Pen p, Point[] points, wkbGeometryType type, Graphics g)
         {
 
             if (points != null)
@@ -166,10 +175,14 @@ namespace hero_GIS
             if (i < Layer_count && i >= 0)
             {
                 allLayers[i].checkbox = false;
-                for (int j = 0; j < allLayers[i].screen_point.Length; j++)
+                if (allLayers[i].screen_point != null)
                 {
-                    draw_by_points(clear_color, allLayers[i].screen_point[j], allLayers[i].Layer_type, g);
+                    for (int j = 0; j < allLayers[i].screen_point.Length; j++)
+                    {
 
+                        draw_by_points(clear_color, allLayers[i].screen_point[j], allLayers[i].Layer_type, g);
+
+                    }
                 }
             }
             else
@@ -177,6 +190,7 @@ namespace hero_GIS
                 MessageBox.Show("隐藏图层错误");
                 return;
             }
+            
         }
        
         public void checkbox_add(int i,Graphics g)
@@ -197,13 +211,16 @@ namespace hero_GIS
         private void calculate_screen_by_basepoint() {
             for (int iLayer = 0; iLayer < Layer_count; iLayer++)
             {
-                for (int i0 = 0; i0 < allLayers[iLayer].geo_point.Length; i0++)
+                if (allLayers[iLayer].geo_point != null)
                 {
-                    for (int j0 = 0; j0 < allLayers[iLayer].geo_point[i0].Length; j0++)
+                    for (int i0 = 0; i0 < allLayers[iLayer].geo_point.Length; i0++)
                     {
-                        allLayers[iLayer].screen_point[i0][j0].X = Convert.ToInt32((Convert.ToDouble(allLayers[iLayer].geo_point[i0][j0].X - base_point.X)) / scale );
-                        allLayers[iLayer].screen_point[i0][j0].Y = Convert.ToInt32((Convert.ToDouble(base_point.Y - allLayers[iLayer].geo_point[i0][j0].Y)) / scale );
+                        for (int j0 = 0; j0 < allLayers[iLayer].geo_point[i0].Length; j0++)
+                        {
+                            allLayers[iLayer].screen_point[i0][j0].X = Convert.ToInt32((Convert.ToDouble(allLayers[iLayer].geo_point[i0][j0].X - base_point.X)) / scale);
+                            allLayers[iLayer].screen_point[i0][j0].Y = Convert.ToInt32((Convert.ToDouble(base_point.Y - allLayers[iLayer].geo_point[i0][j0].Y)) / scale);
 
+                        }
                     }
                 }
             }
@@ -227,14 +244,17 @@ namespace hero_GIS
             all_points = 0;
             for (int iLayer = 0; iLayer < index.Count; iLayer++)
             {
-                for (int i = 0; i < allLayers[index[iLayer]].geo_point.Length; i++)//单个图层里面的要素个数i
+                if (allLayers[index[iLayer]].geo_point != null)
                 {
-                    for (int j = 0; j < allLayers[index[iLayer]].geo_point[i].Length; j++)//单个要素的点个数j
+                    for (int i = 0; i < allLayers[index[iLayer]].geo_point.Length; i++)//单个图层里面的要素个数i
                     {
-                        //初始化xy，将当前显示的图层的所有点放在数组里面
-                        x[all_points] = allLayers[index[iLayer]].geo_point[i][j].X;
-                        y[all_points] = allLayers[index[iLayer]].geo_point[i][j].Y;
-                        all_points++;
+                        for (int j = 0; j < allLayers[index[iLayer]].geo_point[i].Length; j++)//单个要素的点个数j
+                        {
+                            //初始化xy，将当前显示的图层的所有点放在数组里面
+                            x[all_points] = allLayers[index[iLayer]].geo_point[i][j].X;
+                            y[all_points] = allLayers[index[iLayer]].geo_point[i][j].Y;
+                            all_points++;
+                        }
                     }
                 }
             }

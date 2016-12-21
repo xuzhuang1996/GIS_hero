@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using OSGeo.OGR;
 
 namespace hero_GIS
 {
@@ -26,7 +27,8 @@ namespace hero_GIS
 
             all_hero = new All_Layers(panel1);
             g= panel1.CreateGraphics();
-            
+            //不清楚具体用处
+            panel1.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(panel1, true, null);
         }
 
         private void 添加图层ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -34,7 +36,7 @@ namespace hero_GIS
             //点击弹出对话框
             OpenFileDialog ofd = new OpenFileDialog();
             //设置对话框的标题
-            ofd.Title = "请选择要打开的shp文件~";
+            ofd.Title = "请选择要打开的shp文件";
             //设置对话框的初始目录
             ofd.InitialDirectory = @"C:\Users\xu\Desktop\hero";
             //设置对话框的文件类型
@@ -216,16 +218,45 @@ namespace hero_GIS
             
             }
         }
-    }
 
-
-    public class MyPanel : Panel
-    {
-        public MyPanel()
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            this.SetStyle(ControlStyles.UserPaint, true);
+            g.Dispose();
+            
+        }
+
+        private void 新建图层ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form new_layer = new new_layer(init_Layer);
+            new_layer.Show();
+            
+        }
+        //在新建图层的时候初始化图层基本信息
+        private void init_Layer(string s1, wkbGeometryType s2, string s3)
+        {
+            xu_Layer layer = new xu_Layer();
+            layer.Layer_Name = s1;
+            layer.Layer_type = s2;
+            layer.spatial_reference = s3;
+            layer.checkbox = true;
+
+            all_hero.addLayer(layer);
+
+            TreeNode tn_root = treeView.Nodes[0];
+            tn_root.Checked = true;
+            TreeNode tn = tn_root.Nodes.Add(s1);
+            tn.Checked = true;
+            tn.ContextMenuStrip = contextMenuStrip2;
+            treeView.ExpandAll();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            mouse_action = new rectangle(panel1);
+            panel1.Cursor = Cursors.Default;
         }
     }
+
+
+
 }

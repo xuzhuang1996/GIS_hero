@@ -10,9 +10,10 @@ namespace hero_GIS
 
     public class xu_mouse {
         public  xu_Layer our_Layer;//用于保存的图层
-        public Panel panel;
+        public Control panel;
         public Pen clear_pen;//背景色用于擦除
-        public xu_mouse(Panel panel1) {
+        public xu_mouse(Control panel1)
+        {
             panel = panel1;
             clear_pen = new Pen(panel1.BackColor);
         }
@@ -27,7 +28,9 @@ namespace hero_GIS
     public class rectangle : xu_mouse {
         private Point startP, oldP,endP;//变换的起点和鼠标移动时的当前点
         private bool tag;
-        public rectangle(Panel p) : base(p) {
+        public rectangle(Control p)
+            : base(p)
+        {
             tag = false;
         }
         
@@ -70,11 +73,11 @@ namespace hero_GIS
     }//end of class//////////////////////////////////////////////////////////////////////////
 
     public class move : xu_mouse {
-        public Point down;//移动的时候鼠标初始点
-        public Point up;//移动的时候鼠标的末尾点
+        private Point down;//移动的时候鼠标初始点
+        private Point up;//移动的时候鼠标的末尾点
         private All_Layers hero;
         private Graphics g;
-        public move(Panel p, All_Layers h,Graphics gg)
+        public move(Control p, All_Layers h, Graphics gg)
             : base(p)
         {
             hero = h;
@@ -102,7 +105,7 @@ namespace hero_GIS
         private All_Layers hero;
         private Graphics g;
         private bool big;
-        public zoom(Panel p, All_Layers h,Graphics gg,bool b)
+        public zoom(Control p, All_Layers h, Graphics gg, bool b)
             : base(p)
         {
             hero = h;
@@ -120,4 +123,6 @@ namespace hero_GIS
         }
     
     }//end of class/////////////////////////////////////////////////////////////////////
+
+
 }
