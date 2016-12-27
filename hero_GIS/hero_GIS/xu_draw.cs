@@ -30,7 +30,7 @@ namespace hero_GIS
             Layer_Name = null;
             checkbox = true;
             Layet_edit = false;
-            Layer_pen = new Pen(Color.Red);
+            Layer_pen = new Pen(Color.YellowGreen);
             geo_point = null;
             screen_point = null;
         
@@ -120,9 +120,34 @@ namespace hero_GIS
 
             if (allLayers != null)
             {
-
+                calculate_screen_by_basepoint();
                 for (int i = 0; i < Layer_count; i++)
                     if (allLayers[i].checkbox && allLayers[i].screen_point!=null)
+                    {
+                        for (int j = 0; j < allLayers[i].screen_point.Length; j++)
+                            draw_by_points(allLayers[i].Layer_pen, allLayers[i].screen_point[j], allLayers[i].Layer_type, g);
+
+                    }
+            }
+            else MessageBox.Show("屏幕坐标计算出错");
+
+        }
+
+        //绘图函数
+        public void drawLayer_re(Graphics g)//纯粹为了矩形框而做的更改，属于设计不得利，在Mousemove中用的
+        {
+            //g.Clear(clear_color.Color);
+            if (Layer_count == 0)
+            {
+                MessageBox.Show("当前无图层2");
+                return;
+            }
+
+            if (allLayers != null)
+            {
+                calculate_screen_by_basepoint();
+                for (int i = 0; i < Layer_count; i++)
+                    if (allLayers[i].checkbox && allLayers[i].screen_point != null)
                     {
                         for (int j = 0; j < allLayers[i].screen_point.Length; j++)
                             draw_by_points(allLayers[i].Layer_pen, allLayers[i].screen_point[j], allLayers[i].Layer_type, g);
@@ -231,13 +256,14 @@ namespace hero_GIS
         {
             //width -= 5;//后期判断是否有用
             //height -= 5;
-            if (Layer_count <= 0 || index.Count <= 0) return;
+            if (Layer_count <= 0 || index.Count <= 0 ) return;
             int all_points = 0;
             //获取当前显示图层的点的总个数
             for (int i = 0; i < index.Count; i++)
             {
                 all_points += allLayers[index[i]].all_points_count();
             }
+            if (all_points == 0) return;
             int []x = new int[all_points];//当前显示图层的所有要素的点
             int []y = new int[all_points];
 
@@ -319,5 +345,69 @@ namespace hero_GIS
             calculate_screen_by_basepoint();
         
         }
+
+        //选择要素,需要改进。
+        public int [] choose(Rectangle choose_rectangle,out int xu_layer_index) {
+            if (choose_rectangle == null) {
+                MessageBox.Show("当前无选中要素");
+                xu_layer_index = -1;
+                return null;
+            }
+            List<int> choose_index = new List<int>();
+            int temp = -1; ;
+            if (allLayers != null)
+            {
+
+                for (int i = 0; i < Layer_count; i++)
+                    if (allLayers[i].checkbox && allLayers[i].screen_point != null)
+                    {
+
+                        for (int j = 0; j < allLayers[i].screen_point.Length; j++)
+                        {
+                            int num = 0;
+                            for (int k = 0; k < allLayers[i].screen_point[j].Length; k++)
+                            {
+                                if (choose_rectangle.Contains(allLayers[i].screen_point[j][k]) == true)
+                                    num++;
+                            }
+                            if (num > 0 && num <= allLayers[i].screen_point[j].Length)
+                            {
+                                //MessageBox.Show(j.ToString());
+                                choose_index.Add(j);
+                                temp = i;
+                            }
+                        }
+                    }
+
+            }
+            xu_layer_index = temp;
+            return choose_index.ToArray();
+        }
+
+        //根据选中的要素来进行闪烁
+        public void show_time(int[] index, int ilayer, Graphics g)
+        {
+            Pen p = new Pen(Color.Red, 1);
+            for (int i = 0; i < index.Length; i++)
+                draw_by_points(p, allLayers[ilayer].screen_point[index[i]], allLayers[ilayer].Layer_type, g);
+        
+        
+        }
+
+
+        private void showByArray(int[] index, int ilayer,Graphics g) { 
+            for(int i=0;i<index.Length;i++)
+                draw_by_points(allLayers[ilayer].Layer_pen, allLayers[ilayer].screen_point[index[i]], allLayers[ilayer].Layer_type, g);
+        
+        }
+
+        private void hideByArray(int[] index, int ilayer, Graphics g)
+        {
+            for (int i = 0; i < index.Length; i++)
+                draw_by_points(clear_color, allLayers[ilayer].screen_point[index[i]], allLayers[ilayer].Layer_type, g);
+
+        }
+
+        
     }//end of class////////////////////////////////////////////////////////////////////////////////
 }

@@ -11,7 +11,7 @@ using System.Data.OracleClient;
 namespace hero_GIS
 {
     
-
+    
     public partial class LogIn : Form
     {
         public LogIn()
@@ -19,10 +19,16 @@ namespace hero_GIS
             InitializeComponent();
         }
 
+        private  zhang_sql our_sql;
+
         private void OK_Click(object sender, EventArgs e)
         {
-            string connection = "Data Source=" + DataBase.Text + ";User ID=" + UserName.Text + ";Password=" + Password.Text+";";
-            OracleConnection xu_connection = new OracleConnection(connection);
+            //string connection = "Data Source=" + DataBase.Text + ";User ID=" + UserName.Text + ";Password=" + Password.Text+";";
+            our_sql = new zhang_sql(UserName.Text, Password.Text, DataBase.Text);
+            //Form form1 = new Form1(our_sql);
+            this.Hide();
+            //form1.Show();
+            /*OracleConnection xu_connection = new OracleConnection(connection);
             try
             {
                 xu_connection.Open();
@@ -39,7 +45,7 @@ namespace hero_GIS
             finally
             {
                 xu_connection.Close();
-            }
+            }*/
         }
 
         private void Cancel_Click(object sender, EventArgs e)

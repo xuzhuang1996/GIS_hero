@@ -17,14 +17,18 @@ namespace hero_GIS
         public Graphics g;
         public bool big;
         public xu_mouse mouse_action;
+        public zhang_sql our_sql;
+        //public Form1(zhang_sql sql)
         public Form1()
         {
+            
             InitializeComponent();
             //激活双缓冲技术
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
 
+            //our_sql = sql;
             all_hero = new All_Layers(panel1);
             g= panel1.CreateGraphics();
             //不清楚具体用处
@@ -146,13 +150,13 @@ namespace hero_GIS
        
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
-
+            
             //坐标信息
             int zuobiao_x = Convert.ToInt32((double)e.X * all_hero.scale)+all_hero.base_point.X;
             int zuobiao_y = all_hero.base_point.Y-Convert.ToInt32((double)(e.Y) * all_hero.scale);
             zuobiao.Text = "("+zuobiao_x+","+zuobiao_y+")";
             label2.Text = "(" +e.X + "," + e.Y + ")";
-
+                        
             if (mouse_action!=null)
             mouse_action.mouse_move(sender,e);
 
@@ -186,7 +190,6 @@ namespace hero_GIS
         {
             big = true;
             //panel1.Cursor = new Cursor(@"F:\mygitwork\hero_GIS\big.png");
-            //mouse_action = new rectangle(panel1);
             mouse_action = new zoom(panel1,all_hero,g,big);
         }
 
@@ -252,8 +255,86 @@ namespace hero_GIS
 
         private void button4_Click(object sender, EventArgs e)
         {
-            mouse_action = new rectangle(panel1);
+            mouse_action = new rectangle(panel1,all_hero);
             panel1.Cursor = Cursors.Default;
+        }
+
+        private void 开始编辑ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode tn= treeView.SelectedNode;
+            all_hero.allLayers[tn.Index].Layet_edit = true;
+            switch (all_hero.allLayers[tn.Index].Layer_type)
+            {
+                case wkbGeometryType.wkbPoint:
+                    输入点ToolStripMenuItem.Enabled = true;
+                    break;
+                case wkbGeometryType.wkbLineString:
+                    输入线ToolStripMenuItem.Enabled = true;
+                    break;
+                case wkbGeometryType.wkbPolygon25D:
+                    输入区ToolStripMenuItem.Enabled = true;
+                    break;
+            
+            }
+            
+        }
+
+        private void 结束编辑ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode tn = treeView.SelectedNode;
+            all_hero.allLayers[tn.Index].Layet_edit = false;
+            switch (all_hero.allLayers[tn.Index].Layer_type)
+            {
+                case wkbGeometryType.wkbPoint:
+                    输入点ToolStripMenuItem.Enabled = false;
+                    break;
+                case wkbGeometryType.wkbLineString:
+                    输入线ToolStripMenuItem.Enabled = false;
+                    break;
+                case wkbGeometryType.wkbPolygon25D:
+                    输入区ToolStripMenuItem.Enabled = false;
+                    break;
+
+            }
+            //our_sql.insert("POINT", all_hero.allLayers[tn.Index]);
+           // mouse_action.draw_over();
+        }
+
+        private void 输入点ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+             TreeNode tn= treeView.SelectedNode;
+             mouse_action = new draw_point(panel1, all_hero, g, all_hero.allLayers[tn.Index]);
+             panel1.Cursor = Cursors.Cross;
+        }
+
+        private void 输入线ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode tn= treeView.SelectedNode;
+            mouse_action = new line(panel1, all_hero, all_hero.allLayers[tn.Index]);
+            panel1.Cursor = Cursors.Cross;
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            if (all_hero.allLayers.Count > 0)
+                all_hero.drawLayer(g);
+        }
+
+        private void 区编辑ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (mouse_action != null)
+                mouse_action.delete_feature();
         }
     }
 
