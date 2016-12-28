@@ -269,7 +269,7 @@ namespace hero_GIS
 
             g3 = Graphics.FromImage(bitmap);//从位图创建绘图面
             //g3.Clear(panel.BackColor);//清除背景色
-            paint_again(g3);
+            //paint_again(g3);
 
 
             //把临时位图拷贝到窗体绘图面
@@ -401,7 +401,7 @@ namespace hero_GIS
             // this.panel.Invalidate();
             
             //用当前绘制已有的变换，防止它们被擦除
-            paint_again(g1);
+          //  paint_again(g1);
             
         }
 
@@ -423,7 +423,7 @@ namespace hero_GIS
                     oldP.X = e.X;
                     oldP.Y = e.Y;
                     //用当前绘制已有的变换，防止它们被擦除
-                    paint_again(g1);
+                    //paint_again(g1);
                     hero.drawLayer_re(g1);
                 }
             }
@@ -493,7 +493,7 @@ namespace hero_GIS
             g3 = Graphics.FromImage(bitmap);//从位图创建绘图面
             //g3.Clear(panel.BackColor);//清除背景色
             // g3.SmoothingMode = SmoothingMode.AntiAlias;//设置抗锯齿平滑模式
-            paint_again(g3);
+          //  paint_again(g3);
 
 
             //把临时位图拷贝到窗体绘图面
@@ -566,7 +566,7 @@ namespace hero_GIS
                // if (czbnumber == 1)
                 //{ a = 0; }
 
-                    g1.DrawLine(curPen, tranGroup[a][0], tranGroup[tranNumb - 1][1]);
+                    //g1.DrawLine(curPen, tranGroup[a][0], tranGroup[tranNumb - 1][1]);
 
                     //tranNumb = 0;
 
@@ -580,13 +580,22 @@ namespace hero_GIS
 
                         }
                         //qwarr[tranNumb] = tranGroup[tranNumb - 1][1];
-                        qwarr.Add(hero.screen_TO_geo(tranGroup[tranNumb - 1][1]));
-                        our_Layer.geo_point = new Point[1][];
-                        if (qwarr.Count < 3)
+                        
+                        if (qwarr.Count < 2)
                         {
-                            hero.drawLayer(g1);
+                           // paint_again(g1);
+                            hero.drawLayer_re(g1);
+                            qwarr.Clear();
+                           /* List<Point[]> t = tranGroup.ToList();
+                            for (int i = 0; i < tranNumb; i++)
+                            {
+                                t.RemoveAt(i); 
+                            }
+                            tranGroup = t.ToArray();*/
                             return; 
                         }
+                        qwarr.Add(hero.screen_TO_geo(tranGroup[tranNumb - 1][1]));
+                        our_Layer.geo_point = new Point[1][];
                         our_Layer.geo_point[0] = qwarr.ToArray();
                         our_Layer.screen_point = new Point[1][];
                         our_Layer.screen_point[0] = new Point[our_Layer.geo_point[0].Length];
@@ -602,22 +611,34 @@ namespace hero_GIS
                         }
                         //qwarr[tranNumb + 1] = tranGroup[tranNumb - 1][1];
 
+                            
+                            if (q.Count < 2)
+                            {
+                                //paint_again(g1);
+                               /* hero.drawLayer_re(g1);
+                                List<Point[]> t = tranGroup.ToList();
+                                for (int i = a; i < tranNumb; i++)
+                                {
+                                    t.RemoveAt(i); 
+                                }
+                                tranGroup = t.ToArray();*/
+                                return; 
+                            }
                             q.Add(hero.screen_TO_geo(tranGroup[tranNumb - 1][1]));
                             List<Point[]> temp = our_Layer.geo_point.ToList();
                             temp.Add(q.ToArray());
-                            if (q.Count < 3)
-                            {
-                                hero.drawLayer(g1);
-                                return;
-                            }
                             our_Layer.geo_point = temp.ToArray();
                             our_Layer.screen_point = new Point[our_Layer.geo_point.Length][];
                             for (int i = 0; i < our_Layer.geo_point.Length; i++)
-                                if (our_Layer.geo_point[i].Length != 1)
+                            {
+                                if (our_Layer.geo_point[i] != null)
                                 {
-                                    our_Layer.screen_point[i] = new Point[our_Layer.geo_point[i].Length];
+                                    if (our_Layer.geo_point[i].Length != 1)
+                                    {
+                                        our_Layer.screen_point[i] = new Point[our_Layer.geo_point[i].Length];
+                                    }
                                 }
-                        
+                            }
                     }
                    // a2 = a + 1;
                      a = tranNumb;
@@ -629,6 +650,7 @@ namespace hero_GIS
                 judgenumber++;
                 pushNumb = 0;//一段折线结束
                 Capture = false;//释放鼠标
+               // hero.drawLayer(g1);
                 panel.Invalidate();
                 panel.Update();
 
@@ -637,7 +659,7 @@ namespace hero_GIS
 
             g2.Dispose();
             //用当前绘制已有的变换，防止它们被擦除
-            paint_again(g1);
+            //paint_again(g1);
             g1.Dispose();
         }
 
@@ -659,7 +681,7 @@ namespace hero_GIS
                     oldP.X = e.X;
                     oldP.Y = e.Y;
                     //用当前绘制已有的变换，防止它们被擦除
-                    paint_again(g1);
+                   // paint_again(g1);
                     hero.drawLayer_re(g1);
                 }
             }

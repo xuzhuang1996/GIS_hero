@@ -114,10 +114,15 @@ namespace hero_GIS
 
         private void 移除ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             TreeNode tn = treeView.SelectedNode;
             if (tn == null||tn==treeView.Nodes[0]) {
                 MessageBox.Show("未正确选中移除对象");
                 return; }
+            if (all_hero.allLayers[tn.Index].Layet_edit == true) {
+                MessageBox.Show("未停止编辑，无法移除");
+                return;
+            }
             if (tn.Index>=0)
             {
                 all_hero.removeLayer(tn.Index);
@@ -265,6 +270,15 @@ namespace hero_GIS
 
         private void 开始编辑ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //如果已经有图层在编辑，应禁止第二个图层开始编辑
+            for (int i = 0; i < all_hero.allLayers.Count; i++)
+            {
+                if (all_hero.allLayers[i].Layet_edit == true)
+                {
+                    MessageBox.Show("当前已有图层处于编辑状态，无法进行操作");
+                    return;
+                }
+            }
             TreeNode tn= treeView.SelectedNode;
             all_hero.allLayers[tn.Index].Layet_edit = true;
             switch (all_hero.allLayers[tn.Index].Layer_type)

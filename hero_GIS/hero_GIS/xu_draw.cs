@@ -168,6 +168,7 @@ namespace hero_GIS
                 {
                     case wkbGeometryType.wkbPolygon25D:
                         {
+                            
                             g.DrawPolygon(p, points);
                             g.FillPolygon(new SolidBrush(p.Color), points);
                             break;
@@ -240,11 +241,14 @@ namespace hero_GIS
                 {
                     for (int i0 = 0; i0 < allLayers[iLayer].geo_point.Length; i0++)
                     {
-                        for (int j0 = 0; j0 < allLayers[iLayer].geo_point[i0].Length; j0++)
+                        if (allLayers[iLayer].geo_point[i0] != null)
                         {
-                            allLayers[iLayer].screen_point[i0][j0].X = Convert.ToInt32((Convert.ToDouble(allLayers[iLayer].geo_point[i0][j0].X - base_point.X)) / scale);
-                            allLayers[iLayer].screen_point[i0][j0].Y = Convert.ToInt32((Convert.ToDouble(base_point.Y - allLayers[iLayer].geo_point[i0][j0].Y)) / scale);
+                            for (int j0 = 0; j0 < allLayers[iLayer].geo_point[i0].Length; j0++)
+                            {
+                                allLayers[iLayer].screen_point[i0][j0].X = Convert.ToInt32((Convert.ToDouble(allLayers[iLayer].geo_point[i0][j0].X - base_point.X)) / scale);
+                                allLayers[iLayer].screen_point[i0][j0].Y = Convert.ToInt32((Convert.ToDouble(base_point.Y - allLayers[iLayer].geo_point[i0][j0].Y)) / scale);
 
+                            }
                         }
                     }
                 }
