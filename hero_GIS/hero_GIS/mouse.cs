@@ -48,7 +48,8 @@ namespace hero_GIS
         public override void mouse_down(object sender, MouseEventArgs e) {
             
             //左键按下，开始画矩形，
-            if (e.Button == MouseButtons.Left) {
+            if (e.Button == MouseButtons.Left && hero.allLayers.Count > 0)
+            {
                     tag = true;//左键按下
                     startP.X = e.X;
                     startP.Y = e.Y;
@@ -80,19 +81,21 @@ namespace hero_GIS
             Graphics g = panel.CreateGraphics();
             choose_rectangle=new Rectangle(Math.Min(startP.X, oldP.X), Math.Min(startP.Y, oldP.Y), Math.Abs(startP.X - oldP.X), Math.Abs(startP.Y - oldP.Y));
             g.DrawRectangle(clear_pen, choose_rectangle);
+            if (hero.allLayers.Count == 0) return;
             hero.drawLayer_re(g);
             //panel.Invalidate();
             //panel.Update();
             
             index=hero.choose(choose_rectangle,out i_layer);
-            hero.show_time(index, i_layer, g);
-            choose_rectangle = new Rectangle();
+         //   choose_rectangle = new Rectangle();
+            if(i_layer!=-1)hero.show_time(index, i_layer, g);
+            
         }
 
         //删除指定的要素
         public override void delete_feature()
         {
-            Array.Sort(index);
+            
             if (i_layer != -1 && index.Length > 0)
             {
                 List<Point[]> temp = hero.allLayers[i_layer].geo_point.ToList();
@@ -108,7 +111,8 @@ namespace hero_GIS
                 Graphics g = panel.CreateGraphics();
                 hero.drawLayer(g);
             }
-           
+           // index = null; i_layer = -1;
+           // choose_rectangle = new Rectangle();
         }
     }//end of class//////////////////////////////////////////////////////////////////////////
 
@@ -279,7 +283,6 @@ namespace hero_GIS
         {
 
             Graphics g2 = panel.CreateGraphics();
-            //e.Delta;//获取鼠标
             //判断变换数
             if (tranNumb >= 999)
             {
@@ -287,7 +290,6 @@ namespace hero_GIS
                 Capture = false;
                 return;
             }
-            // MessageBox.Show("happy friday");
             //左键按下
             if (e.Button == MouseButtons.Left)
             {
@@ -422,6 +424,7 @@ namespace hero_GIS
                     oldP.Y = e.Y;
                     //用当前绘制已有的变换，防止它们被擦除
                     paint_again(g1);
+                    hero.drawLayer_re(g1);
                 }
             }
             g1.Dispose();
@@ -437,4 +440,258 @@ namespace hero_GIS
         }
        
     }//end of class//////////////////////////////////////////////////////////////////////////
+
+    //画多边形
+    public class cheng_polygon : xu_mouse
+    {
+
+        public static int czbnumber;
+        private All_Layers hero;
+        //  public Rectangle choose_rectangle;
+        private Point[][] tranGroup = new Point[1000][];//线变换组
+        private Point[][] tranGroup_recl = new Point[1000][];//变换组
+        private int tranNumb = 0;//变换序号
+        private int pushNumb = 0;//左键按下情况：0为开始画变换，1为结束
+        private Point curP;//存储变换时鼠标的当前点
+        private Point startP, oldP;//变换的起点和鼠标移动时的当前点
+        private Graphics g0, g3;//窗口绘图面和采用双缓冲时的临时绘图面
+        public Pen curPen;//一个变换确定并要绘制时所用的画笔
+        private Point endPoint;//存储右键按下时放弃绘制相连变换的鼠标点
+        private Color clr;//获取窗体背景色
+        private Pen p1;//重画变换时所用的笔
+        private Bitmap bitmap = null;//双缓冲时用的位图
+        public bool Capture;
+        public static int countnumber = 0;
+        public static int judgenumber = 0;
+        public static int a2;
+        public static int a;
+        public static int zh;
+        public static int cc = 1;
+        public List<Point> qwarr = new List<Point>(); 
+        public static Point[] arr = new Point[1000];
+        public cheng_polygon(Control p, All_Layers h,xu_Layer layer)
+            : base(p)
+        {
+
+            hero = h;
+            our_Layer = layer;
+            bitmap = new Bitmap(panel.Width, panel.Height, panel.CreateGraphics());//创建临时位图
+            g0 = panel.CreateGraphics();
+            a = 0;
+            curPen = new Pen(Color.YellowGreen, 1);//定义一个变换确定并要绘制时所用的画笔
+            clr = panel.BackColor;//获取窗体背景色
+            p1 = new Pen(clr, 1);
+            for (int i = 0; i < 1000; i++)
+            {
+                tranGroup[i] = new Point[2];
+                tranGroup_recl[i] = new Point[2];
+            }
+
+
+
+            // Graphics g = Graphics.FromHwnd(this.panel1.Handle);
+            g3 = Graphics.FromImage(bitmap);//从位图创建绘图面
+            //g3.Clear(panel.BackColor);//清除背景色
+            // g3.SmoothingMode = SmoothingMode.AntiAlias;//设置抗锯齿平滑模式
+            paint_again(g3);
+
+
+            //把临时位图拷贝到窗体绘图面
+            g0.DrawImage(bitmap, 0, 0);
+            g3.Dispose();
+
+        }
+
+
+
+        public override void mouse_down(object sender, MouseEventArgs e)
+        {
+
+            Graphics g2 = panel.CreateGraphics();
+            //e.Delta;//获取鼠标
+            //判断变换数
+            if (tranNumb >= 999)
+            {
+                pushNumb = 0;
+                Capture = false;
+                return;
+            }
+            // MessageBox.Show("happy friday");
+            //左键按下
+            if (e.Button == MouseButtons.Left)
+            {
+                //开始分类，是谁在用左键case
+
+                if (pushNumb == 0)//判断是否是折线的开始
+                {
+                    if (endPoint.X != e.X || endPoint.Y != e.Y)
+                    {
+                        Capture = true;//捕获鼠标
+                        pushNumb++;
+                        startP.X = e.X;
+                        startP.Y = e.Y;
+                        oldP.X = e.X;
+                        oldP.Y = e.Y;
+                        //MessageBox.Show(e.X.ToString()+"-"+e.Y.ToString());
+
+                    }
+                }
+                else if (pushNumb == 1)//如果不是一段新的折线的开始
+                {
+                    curP.X = e.X;
+                    curP.Y = e.Y;
+
+                    //把变换存入变换组中
+                    //  g2.DrawLine(curPen, startP, new Point(e.X, e.Y));
+                    tranGroup[tranNumb][0] = startP;
+                    tranGroup[tranNumb][1] = curP;
+                    tranNumb++;
+
+
+                    startP.X = e.X;
+                    startP.Y = e.Y;
+
+                    //存储一段折线的最后一个点的坐标
+                    endPoint.X = e.X;
+                    endPoint.Y = e.Y;
+
+                }
+            }
+
+            //右键按下
+            Graphics g1 = panel.CreateGraphics();
+            if (e.Button == MouseButtons.Right)
+            {
+                //czbnumber++;
+               // if (czbnumber == 1)
+                //{ a = 0; }
+
+                    g1.DrawLine(curPen, tranGroup[a][0], tranGroup[tranNumb - 1][1]);
+
+                    //tranNumb = 0;
+
+                   //a = tranNumb;
+                    if (our_Layer.geo_point == null)
+                    {
+                        for (int i = 0; i < tranNumb; i++)
+                        {
+                            //qwarr[i] = tranGroup[i][0];
+                            qwarr.Add(hero.screen_TO_geo(tranGroup[i][0]));
+
+                        }
+                        //qwarr[tranNumb] = tranGroup[tranNumb - 1][1];
+                        qwarr.Add(hero.screen_TO_geo(tranGroup[tranNumb - 1][1]));
+                        our_Layer.geo_point = new Point[1][];
+                        if (qwarr.Count < 3)
+                        {
+                            hero.drawLayer(g1);
+                            return; 
+                        }
+                        our_Layer.geo_point[0] = qwarr.ToArray();
+                        our_Layer.screen_point = new Point[1][];
+                        our_Layer.screen_point[0] = new Point[our_Layer.geo_point[0].Length];
+
+                    }
+                    else
+                    {
+                        List<Point> q = new List<Point>();
+                        for (int i = a; i < tranNumb; i++)
+                        {
+                            //qwarr[i] = tranGroup[i][0];
+                            q.Add(hero.screen_TO_geo(tranGroup[i][0]));
+                        }
+                        //qwarr[tranNumb + 1] = tranGroup[tranNumb - 1][1];
+
+                            q.Add(hero.screen_TO_geo(tranGroup[tranNumb - 1][1]));
+                            List<Point[]> temp = our_Layer.geo_point.ToList();
+                            temp.Add(q.ToArray());
+                            if (q.Count < 3)
+                            {
+                                hero.drawLayer(g1);
+                                return;
+                            }
+                            our_Layer.geo_point = temp.ToArray();
+                            our_Layer.screen_point = new Point[our_Layer.geo_point.Length][];
+                            for (int i = 0; i < our_Layer.geo_point.Length; i++)
+                                if (our_Layer.geo_point[i].Length != 1)
+                                {
+                                    our_Layer.screen_point[i] = new Point[our_Layer.geo_point[i].Length];
+                                }
+                        
+                    }
+                   // a2 = a + 1;
+                     a = tranNumb;
+                
+
+                if (pushNumb == 0) { return; }
+                //右键之后的不画
+                //变换数没有超过变换组最大限度
+                judgenumber++;
+                pushNumb = 0;//一段折线结束
+                Capture = false;//释放鼠标
+                panel.Invalidate();
+                panel.Update();
+
+            }
+            //失效重画,Invalidate函数在这里应该没起到作用，因此重新写的再次绘制
+
+            g2.Dispose();
+            //用当前绘制已有的变换，防止它们被擦除
+            paint_again(g1);
+            g1.Dispose();
+        }
+
+        public override void mouse_move(object sender, MouseEventArgs e)
+        {
+            Graphics g1 = panel.CreateGraphics();
+            //左键按下并移动鼠标
+            if (pushNumb == 1)
+            {
+                if (oldP.X != e.X || oldP.Y != e.Y)
+                {
+
+                    g1.DrawLine(p1, startP, oldP);//用背景色绘制原来的变换
+                    g1.DrawLine(curPen, startP, new Point(e.X, e.Y));//用当前画笔绘制当前变换
+
+
+
+                    //存储一个变换的终点，作为下一变换的起点
+                    oldP.X = e.X;
+                    oldP.Y = e.Y;
+                    //用当前绘制已有的变换，防止它们被擦除
+                    paint_again(g1);
+                    hero.drawLayer_re(g1);
+                }
+            }
+            g1.Dispose();
+        }
+
+        private void paint_again(Graphics g1)
+        {
+
+            for (int i = 0; i < tranNumb; i++)
+            {
+                g1.DrawLine(curPen, tranGroup[i][0], tranGroup[i][1]);
+            }
+            if (a > 0)
+            {
+                int s = 2 * czbnumber;
+                for (int j = 1; j <= s; j = j + 2)
+                {
+
+                    //tranGroup2[0][0] = arr[j];
+                    //tranGroup2[2][0] = arr[j+1];//线变换组
+                    //tranGroup2[3][0] = arr[j + 1];//线变换组  
+
+
+                    g1.DrawLine(curPen, arr[j], arr[j + 1]);
+
+                    //  g1.DrawLine(curPen, tranGroup2[1][0], tranGroup2[0][0]);
+
+                }
+            }
+        }
+
+
+    }//end of class//////////////////////////////////////////////////////////
 }

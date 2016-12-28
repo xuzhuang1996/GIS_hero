@@ -142,7 +142,7 @@
             // 
             this.输入线ToolStripMenuItem.Enabled = false;
             this.输入线ToolStripMenuItem.Name = "输入线ToolStripMenuItem";
-            this.输入线ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.输入线ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.输入线ToolStripMenuItem.Text = "输入线";
             this.输入线ToolStripMenuItem.Click += new System.EventHandler(this.输入线ToolStripMenuItem_Click);
             // 
@@ -159,8 +159,9 @@
             // 
             this.输入区ToolStripMenuItem.Enabled = false;
             this.输入区ToolStripMenuItem.Name = "输入区ToolStripMenuItem";
-            this.输入区ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.输入区ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.输入区ToolStripMenuItem.Text = "输入区";
+            this.输入区ToolStripMenuItem.Click += new System.EventHandler(this.输入区ToolStripMenuItem_Click);
             // 
             // label1
             // 

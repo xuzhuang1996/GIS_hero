@@ -32,11 +32,12 @@ namespace hero_GIS
             all_hero = new All_Layers(panel1);
             g= panel1.CreateGraphics();
             //不清楚具体用处
-            panel1.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(panel1, true, null);
+           // panel1.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(panel1, true, null);
         }
 
         private void 添加图层ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             //点击弹出对话框
             OpenFileDialog ofd = new OpenFileDialog();
             //设置对话框的标题
@@ -225,7 +226,9 @@ namespace hero_GIS
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             g.Dispose();
-            
+            mouse_action = null;
+            all_hero = null;
+            our_sql = null;
         }
 
         private void 新建图层ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -255,6 +258,7 @@ namespace hero_GIS
 
         private void button4_Click(object sender, EventArgs e)
         {
+            
             mouse_action = new rectangle(panel1,all_hero);
             panel1.Cursor = Cursors.Default;
         }
@@ -334,7 +338,17 @@ namespace hero_GIS
         private void button5_Click(object sender, EventArgs e)
         {
             if (mouse_action != null)
+            {
                 mouse_action.delete_feature();
+                //mouse_action = null;
+            }
+        }
+
+        private void 输入区ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode tn = treeView.SelectedNode;
+            mouse_action = new cheng_polygon(panel1, all_hero, all_hero.allLayers[tn.Index]);
+            panel1.Cursor = Cursors.Cross;
         }
     }
 

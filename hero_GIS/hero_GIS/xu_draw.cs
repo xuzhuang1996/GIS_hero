@@ -359,7 +359,7 @@ namespace hero_GIS
             {
 
                 for (int i = 0; i < Layer_count; i++)
-                    if (allLayers[i].checkbox && allLayers[i].screen_point != null)
+                    if (allLayers[i].checkbox && allLayers[i].screen_point != null && allLayers[i].Layet_edit==true)
                     {
 
                         for (int j = 0; j < allLayers[i].screen_point.Length; j++)
