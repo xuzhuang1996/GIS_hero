@@ -154,9 +154,48 @@ namespace hero_GIS
         }
 
         //更新数据库,需要根据pid来判断是否数据库存在需要更新的表
-        public bool renew() {
+        public bool renew(int pid,Point [][]points) {
+            try
+            {
+                OracleCommand cmd = conn.CreateCommand();
+                OracleTransaction transaction = cmd.Connection.BeginTransaction();
+                cmd.Transaction = transaction;
+                cmd.CommandText = "select layer_point from point where PID=" + pid + "  FOR UPDATE";
+                OracleDataReader reader = cmd.ExecuteReader();
+                using (reader)
+                {
+                    reader.Read();
+                    OracleLob templob = reader.GetOracleLob(0);
+                    templob.BeginBatch(OracleLobOpenMode.ReadWrite);
 
+                    byte[] buffer = obj_to_byte(points);
+
+                    templob.Write(buffer, 0, buffer.Length);
+                    templob.EndBatch();
+                    cmd.Parameters.Clear();
+
+                }
+                transaction.Commit();
+                MessageBox.Show("成功2！");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("错误2" + ex);
+            }
             return true;
+        
+        }
+
+        //判断是否在数据库中
+        public bool isExist(int pid) {
+            int tag = 0;
+            string select = "select count(pid) FROM point where pid=" + pid + "";
+            OracleCommand comman = new OracleCommand(select, conn);
+            OracleDataReader sd = comman.ExecuteReader();
+            if (sd.Read()) tag = sd.GetInt32(0);
+            sd.Close();
+            if (tag == 1) return true;
+            else return false;
         
         }
 

@@ -300,9 +300,12 @@ namespace hero_GIS
           //  结束编辑ToolStripMenuItem.Enabled = true;
         }
 
+        //处理时注意。不光是新建的时候结束编辑，还有添加的图层（未导入），正常的编辑保存（在数据库）
         private void 结束编辑ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             TreeNode tn = treeView.SelectedNode;
+            if (all_hero.allLayers[tn.Index].Layet_edit == false) return;
             all_hero.allLayers[tn.Index].Layet_edit = false;
             switch (all_hero.allLayers[tn.Index].Layer_type)
             {
@@ -318,6 +321,12 @@ namespace hero_GIS
 
             }
             mouse_action = null;
+            //当数据库存在数据时才需要进行更改
+            if (our_sql.isExist(all_hero.allLayers[tn.Index].Layer_ID))
+            {
+                our_sql.renew(all_hero.allLayers[tn.Index].Layer_ID, all_hero.allLayers[tn.Index].geo_point);
+            
+            }
            // 开始编辑ToolStripMenuItem.Enabled = true;
            // 结束编辑ToolStripMenuItem.Enabled = false;
             //xu_Layer lay=all_hero.allLayers[tn.Index];
