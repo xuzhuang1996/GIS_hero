@@ -24,3 +24,5 @@ F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.Properties.Resources.resou
 F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.csproj.GenerateResource.Cache
 F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.new_layer.resources
 F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.LogIn.resources
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.property.resources
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.ToDataBase.resources

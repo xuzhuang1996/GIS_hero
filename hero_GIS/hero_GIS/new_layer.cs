@@ -48,5 +48,14 @@ namespace hero_GIS
         {
             this.Close();
         }
+
+        private void TextChanged(object sender, EventArgs e)
+        {
+            if (sender.Equals(LayerName))
+            {
+                label2.Visible = LayerName.Text.Length < 1;
+            }
+        }
+
     }
 }

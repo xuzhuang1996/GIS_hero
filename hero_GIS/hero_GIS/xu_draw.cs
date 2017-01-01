@@ -398,6 +398,16 @@ namespace hero_GIS
         
         }
 
+        //针对listbox写的单独
+        public void show_single(int index, int ilayer, Graphics g)
+        {
+            Pen p = new Pen(Color.Red, 1);
+            drawLayer(g);
+            draw_by_points(p, allLayers[ilayer].screen_point[index], allLayers[ilayer].Layer_type, g);
+
+
+        }
+
 
         private void showByArray(int[] index, int ilayer,Graphics g) { 
             for(int i=0;i<index.Length;i++)

@@ -18,8 +18,8 @@ namespace hero_GIS
         public bool big;
         public xu_mouse mouse_action;
         public zhang_sql our_sql;
-        //public Form1(zhang_sql sql)
-        public Form1()
+        public Form1(zhang_sql sql)
+       // public Form1()
         {
             
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace hero_GIS
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             SetStyle(ControlStyles.DoubleBuffer, true);
 
-            //our_sql = sql;
+            our_sql = sql;
             all_hero = new All_Layers(panel1);
             g= panel1.CreateGraphics();
             //不清楚具体用处
@@ -65,6 +65,8 @@ namespace hero_GIS
             layer.checkbox = true;
             layer.Layer_type = m_Shp.get_shp_Type();
             layer.geo_point = m_Shp.GetGeometry();
+            layer.spatial_reference = "NAD_1983_UTM_Zone_17N";
+            layer.Layer_Name= Path.GetFileNameWithoutExtension(sShpFileName);
             if (layer.geo_point == null) {
                 MessageBox.Show("无法读取该文件");
                 return; }
@@ -314,23 +316,34 @@ namespace hero_GIS
                     break;
 
             }
-            //our_sql.insert("POINT", all_hero.allLayers[tn.Index]);
+            //xu_Layer lay=all_hero.allLayers[tn.Index];
+            //Form todatabase = new ToDataBase(lay, our_sql);
+            //todatabase.Show();
+            //our_sql.insert("POINT", lay);
            // mouse_action.draw_over();
         }
 
         private void 输入点ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-             TreeNode tn= treeView.SelectedNode;
-             mouse_action = new draw_point(panel1, all_hero, g, all_hero.allLayers[tn.Index]);
-             panel1.Cursor = Cursors.Cross;
+            // TreeNode tn= treeView.SelectedNode;
+             int index = who_edit();
+             if (index != -1)
+             {
+                 mouse_action = new draw_point(panel1, all_hero, g, all_hero.allLayers[index]);
+                 panel1.Cursor = Cursors.Cross;
+             }
         }
 
         private void 输入线ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TreeNode tn= treeView.SelectedNode;
-            mouse_action = new line(panel1, all_hero, all_hero.allLayers[tn.Index]);
-            panel1.Cursor = Cursors.Cross;
+           // TreeNode tn= treeView.SelectedNode;
+            int index = who_edit();
+            if (index != -1)
+            {
+                mouse_action = new line(panel1, all_hero, all_hero.allLayers[index]);
+                panel1.Cursor = Cursors.Cross;
+            }
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -360,9 +373,84 @@ namespace hero_GIS
 
         private void 输入区ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+           // TreeNode tn = treeView.SelectedNode;
+            int index = who_edit();
+            if (index != -1)
+            {
+                mouse_action = new cheng_polygon(panel1, all_hero, all_hero.allLayers[index]);
+                panel1.Cursor = Cursors.Cross;
+            }
+        }
+
+        private void 属性ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             TreeNode tn = treeView.SelectedNode;
-            mouse_action = new cheng_polygon(panel1, all_hero, all_hero.allLayers[tn.Index]);
-            panel1.Cursor = Cursors.Cross;
+            xu_Layer layer=all_hero.allLayers[tn.Index];
+
+            Form pro;
+            switch(layer.Layer_type){
+                case wkbGeometryType.wkbPoint:
+                    pro = new property(layer.Layer_ID, layer.Layer_Name,"Point",layer.spatial_reference);
+                    pro.Show();
+                    break;
+                case wkbGeometryType.wkbLineString:
+                    pro = new property(layer.Layer_ID, layer.Layer_Name, "Line", layer.spatial_reference);
+                    pro.Show();
+                    break;
+                case wkbGeometryType.wkbPolygon25D:
+                    pro = new property(layer.Layer_ID, layer.Layer_Name, "Polygon", layer.spatial_reference);
+                    pro.Show();
+                    break;
+            }
+            
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_Click(object sender, EventArgs e)
+        {
+            /*int index = who_edit();
+            if (index != -1) {
+
+                all_hero.show_single((int)listBox1.Items[listBox1.SelectedIndex], index, g);
+            }
+            */
+        }
+
+        private int who_edit() {
+            int index = -1;
+            if (all_hero.allLayers.Count > 0)
+            {
+                for (int i = 0; i < all_hero.allLayers.Count; i++)
+                {
+                    if (all_hero.allLayers[i].Layet_edit == true)
+                        index = i;
+                }
+            }
+            return index;
+        
+        }
+
+        private void 添加字段ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode tn = treeView.SelectedNode;
+            xu_Layer lay = all_hero.allLayers[tn.Index];
+            our_sql.insert("POINT", lay);
+            //MessageBox.Show("导入成功");
+        }
+
+        private void 重命名ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form datebase = new ToDataBase(our_sql);
+            datebase.Show();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

@@ -25,9 +25,9 @@ namespace hero_GIS
         {
             //string connection = "Data Source=" + DataBase.Text + ";User ID=" + UserName.Text + ";Password=" + Password.Text+";";
             our_sql = new zhang_sql(UserName.Text, Password.Text, DataBase.Text);
-            //Form form1 = new Form1(our_sql);
+            Form form1 = new Form1(our_sql);
             this.Hide();
-            //form1.Show();
+            form1.Show();
             /*OracleConnection xu_connection = new OracleConnection(connection);
             try
             {
@@ -51,6 +51,22 @@ namespace hero_GIS
         private void Cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void TextChanged(object sender, EventArgs e)
+        {
+            if (sender.Equals(UserName))
+            {
+                label4.Visible = UserName.Text.Length < 1;
+            }
+            if (sender.Equals(Password))
+            {
+                label6.Visible = Password.Text.Length < 1;
+            }
+            if (sender.Equals(DataBase))
+            {
+                label5.Visible = DataBase.Text.Length < 1;
+            }
         }
     }
 }

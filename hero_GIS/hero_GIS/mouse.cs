@@ -34,6 +34,7 @@ namespace hero_GIS
         public Rectangle choose_rectangle;
         private int i_layer;
         private int[] index;
+       // private ListBox listbox;
         public rectangle(Control p,All_Layers h)
             : base(p)
         {
@@ -41,6 +42,7 @@ namespace hero_GIS
             hero = h;
             i_layer = -1;
             index = null;
+            //listbox = list;
         }
         
         
@@ -55,7 +57,8 @@ namespace hero_GIS
                     startP.Y = e.Y;
                     oldP.X = e.X;
                     oldP.Y = e.Y;
-                
+                    //if(listbox.Items.Count!=0)
+                    //listbox.Items.Clear();
             }
         }
 
@@ -88,8 +91,12 @@ namespace hero_GIS
             
             index=hero.choose(choose_rectangle,out i_layer);
          //   choose_rectangle = new Rectangle();
-            if(i_layer!=-1)hero.show_time(index, i_layer, g);
-            
+            if (i_layer != -1)
+            {
+                hero.show_time(index, i_layer, g);
+               // for (int i = 0; i < index.Length; i++)
+                 //   listbox.Items.Add(index[i]);
+            }
         }
 
         //删除指定的要素
@@ -681,7 +688,7 @@ namespace hero_GIS
                     oldP.X = e.X;
                     oldP.Y = e.Y;
                     //用当前绘制已有的变换，防止它们被擦除
-                   // paint_again(g1);
+                    paint_again(g1);
                     hero.drawLayer_re(g1);
                 }
             }
@@ -701,9 +708,6 @@ namespace hero_GIS
                 for (int j = 1; j <= s; j = j + 2)
                 {
 
-                    //tranGroup2[0][0] = arr[j];
-                    //tranGroup2[2][0] = arr[j+1];//线变换组
-                    //tranGroup2[3][0] = arr[j + 1];//线变换组  
 
 
                     g1.DrawLine(curPen, arr[j], arr[j + 1]);

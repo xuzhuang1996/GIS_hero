@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogIn));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.UserName = new System.Windows.Forms.TextBox();
@@ -36,13 +37,17 @@
             this.DataBase = new System.Windows.Forms.TextBox();
             this.OK = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.SystemColors.Control;
             this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(27, 45);
+            this.label1.Location = new System.Drawing.Point(49, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 16);
             this.label1.TabIndex = 0;
@@ -52,7 +57,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(27, 81);
+            this.label2.Location = new System.Drawing.Point(49, 93);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 16);
             this.label2.TabIndex = 1;
@@ -60,23 +65,25 @@
             // 
             // UserName
             // 
-            this.UserName.Location = new System.Drawing.Point(195, 45);
+            this.UserName.Location = new System.Drawing.Point(164, 46);
             this.UserName.Name = "UserName";
-            this.UserName.Size = new System.Drawing.Size(129, 21);
+            this.UserName.Size = new System.Drawing.Size(185, 21);
             this.UserName.TabIndex = 2;
+            this.UserName.TextChanged += new System.EventHandler(this.TextChanged);
             // 
             // Password
             // 
-            this.Password.Location = new System.Drawing.Point(195, 81);
+            this.Password.Location = new System.Drawing.Point(164, 88);
             this.Password.Name = "Password";
-            this.Password.Size = new System.Drawing.Size(129, 21);
+            this.Password.Size = new System.Drawing.Size(185, 21);
             this.Password.TabIndex = 3;
+            this.Password.TextChanged += new System.EventHandler(this.TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(27, 121);
+            this.label3.Location = new System.Drawing.Point(49, 132);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(72, 16);
             this.label3.TabIndex = 4;
@@ -84,14 +91,16 @@
             // 
             // DataBase
             // 
-            this.DataBase.Location = new System.Drawing.Point(195, 116);
+            this.DataBase.Location = new System.Drawing.Point(164, 132);
             this.DataBase.Name = "DataBase";
-            this.DataBase.Size = new System.Drawing.Size(129, 21);
+            this.DataBase.Size = new System.Drawing.Size(185, 21);
             this.DataBase.TabIndex = 5;
+            this.DataBase.TextChanged += new System.EventHandler(this.TextChanged);
             // 
             // OK
             // 
-            this.OK.Location = new System.Drawing.Point(68, 209);
+            this.OK.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("OK.BackgroundImage")));
+            this.OK.Location = new System.Drawing.Point(71, 209);
             this.OK.Name = "OK";
             this.OK.Size = new System.Drawing.Size(79, 31);
             this.OK.TabIndex = 6;
@@ -101,7 +110,8 @@
             // 
             // Cancel
             // 
-            this.Cancel.Location = new System.Drawing.Point(195, 209);
+            this.Cancel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Cancel.BackgroundImage")));
+            this.Cancel.Location = new System.Drawing.Point(235, 209);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(79, 31);
             this.Cancel.TabIndex = 7;
@@ -109,11 +119,51 @@
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.White;
+            this.label4.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label4.Location = new System.Drawing.Point(205, 49);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(77, 12);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "请输入用户名";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.White;
+            this.label5.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label5.Location = new System.Drawing.Point(205, 136);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 12);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "请输入用户名";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.White;
+            this.label6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label6.Location = new System.Drawing.Point(205, 91);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(77, 12);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "请输入用户名";
+            // 
             // LogIn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(348, 297);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(409, 292);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.OK);
             this.Controls.Add(this.DataBase);
@@ -139,5 +189,8 @@
         private System.Windows.Forms.TextBox DataBase;
         private System.Windows.Forms.Button OK;
         private System.Windows.Forms.Button Cancel;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
