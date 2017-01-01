@@ -6,6 +6,8 @@ using System.Data.OracleClient;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Drawing;
+using OSGeo.OGR;
 
 namespace hero_GIS
 {
@@ -25,7 +27,7 @@ namespace hero_GIS
             conn.Close();
         }
 
-        //插入
+        //插入数据库
         public void insert(string tablename,xu_Layer layer)
         {
             int type = 0;
@@ -94,15 +96,69 @@ namespace hero_GIS
         public OracleDataAdapter select(string tablename,int type)
         {
 
-            string select = "select pname from " + tablename + " where type="+ type +"";
+            string select = "select pid,pname,geo_reference from " + tablename + " where type=" + type + "";
             OracleDataAdapter myda = new OracleDataAdapter(select, conn);
             return myda;
 
         }
+        //导出数据库
+        public xu_Layer readblob(int pid)
+        {
+            xu_Layer layer = new xu_Layer();
+            try
+            {
+                OracleCommand cmd = conn.CreateCommand();
+                OracleTransaction transaction = cmd.Connection.BeginTransaction();
+                cmd.Transaction = transaction;
+                string sql = "select * from point where pid=" + pid + "";
+                cmd.CommandText = sql;
+                OracleDataReader dr = cmd.ExecuteReader();
+                dr.Read();
+                OracleLob templob = dr.GetOracleLob(3);//blob处于4号位置，因此用下标3来标记
+                
 
+                int length = 1024 * 1024;
+                byte[] buffer = new byte[length];
+                templob.Read(buffer, 0, length);
+                templob.Close();
+               // templob.Clone();
+                cmd.Parameters.Clear();
+                transaction.Commit();
 
+                //获取图层信息
+                layer.geo_point = (Point[][])byte_to_obj(buffer);
+                layer.Layer_ID = pid;
+                layer.Layer_Name = dr.GetOracleString(1).ToString();
+                layer.spatial_reference = dr.GetOracleString(2).ToString();
+                int temp =dr.GetInt32(4);
+                switch (temp)
+                { 
+                    case 1:
+                        layer.Layer_type = wkbGeometryType.wkbPoint;
+                        break;
+                    case 2:
+                        layer.Layer_type = wkbGeometryType.wkbLineString;
+                        break;
+                    case 3:
+                        layer.Layer_type = wkbGeometryType.wkbPolygon25D;
+                        break;
+                }
+                dr.Close();
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("错误" + ex);
+            }
+            return layer;
+        }
 
+        //更新数据库,需要根据pid来判断是否数据库存在需要更新的表
+        public bool renew() {
+
+            return true;
+        
+        }
 
         private byte[] obj_to_byte(object p)
         {

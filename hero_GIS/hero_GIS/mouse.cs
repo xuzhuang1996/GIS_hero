@@ -698,11 +698,11 @@ namespace hero_GIS
         private void paint_again(Graphics g1)
         {
 
-            for (int i = 0; i < tranNumb; i++)
+            for (int i = a; i < tranNumb; i++)
             {
                 g1.DrawLine(curPen, tranGroup[i][0], tranGroup[i][1]);
             }
-            if (a > 0)
+            /*if (a > 0)
             {
                 int s = 2 * czbnumber;
                 for (int j = 1; j <= s; j = j + 2)
@@ -715,7 +715,7 @@ namespace hero_GIS
                     //  g1.DrawLine(curPen, tranGroup2[1][0], tranGroup2[0][0]);
 
                 }
-            }
+            }*/
         }
 
 

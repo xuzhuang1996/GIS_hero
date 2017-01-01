@@ -11,13 +11,14 @@ namespace hero_GIS
 {
     public partial class property : Form
     {
-        public property(int id,string name,string type,string saptial)
+        public property(int id,string name,string type,string saptial,bool edit)
         {
             InitializeComponent();
             label5.Text = id.ToString();
             label6.Text = name;
             label7.Text = type;
             label8.Text = saptial;
+            label10.Text = edit.ToString();
         }
     }
 }

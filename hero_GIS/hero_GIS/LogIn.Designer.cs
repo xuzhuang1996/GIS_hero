@@ -139,9 +139,9 @@
             this.label5.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label5.Location = new System.Drawing.Point(205, 136);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 12);
+            this.label5.Size = new System.Drawing.Size(101, 12);
             this.label5.TabIndex = 9;
-            this.label5.Text = "请输入用户名";
+            this.label5.Text = "请输入数据库名称";
             // 
             // label6
             // 
@@ -151,9 +151,9 @@
             this.label6.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.label6.Location = new System.Drawing.Point(205, 91);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 12);
+            this.label6.Size = new System.Drawing.Size(65, 12);
             this.label6.TabIndex = 10;
-            this.label6.Text = "请输入用户名";
+            this.label6.Text = "请输入密码";
             // 
             // LogIn
             // 

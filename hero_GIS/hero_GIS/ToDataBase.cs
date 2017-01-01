@@ -10,14 +10,18 @@ using System.Data.OracleClient;
 
 namespace hero_GIS
 {
+    public delegate void Del_add(xu_Layer lay);
     public partial class ToDataBase : Form
     {
-        private xu_Layer layer;
+        //private All_Layers hero;
         private zhang_sql sql;
-        public ToDataBase(zhang_sql s)
+        public Del_add del;
+        public ToDataBase(zhang_sql s, Del_add d)
         {
             InitializeComponent();
             sql = s;
+            del = d;
+            //hero = h;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -53,6 +57,23 @@ namespace hero_GIS
            // MessageBox.Show(type.ToString());
             //dataGridView1
             
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            int i = dataGridView1.CurrentCell.RowIndex;
+            int pid = 0;
+            pid =Convert.ToInt32(dataGridView1[0, i].Value);
+            xu_Layer layer= sql.readblob(pid);
+            //hero.addLayer(layer);
+            del(layer);
+            MessageBox.Show("添加成功");
+            this.Close();
         }
     }
 }

@@ -140,8 +140,8 @@ namespace hero_GIS
         private void full_extent_Click(object sender, EventArgs e)
         {
             panel1.Cursor = Cursors.Default;
-            
-            g.Clear(panel1.BackColor);
+            reset();
+            /*g.Clear(panel1.BackColor);
             List<int> who_true = new List<int>();
             foreach (TreeNode node in treeView.Nodes[0].Nodes)
             {
@@ -150,7 +150,7 @@ namespace hero_GIS
             }
 
             all_hero.resetLayer(panel1.Width, panel1.Height, who_true);
-            all_hero.drawLayer(g);
+            all_hero.drawLayer(g);*/
         }
 
 
@@ -296,7 +296,8 @@ namespace hero_GIS
                     break;
             
             }
-            
+         //   开始编辑ToolStripMenuItem.Enabled = false;
+          //  结束编辑ToolStripMenuItem.Enabled = true;
         }
 
         private void 结束编辑ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -316,6 +317,9 @@ namespace hero_GIS
                     break;
 
             }
+            mouse_action = null;
+           // 开始编辑ToolStripMenuItem.Enabled = true;
+           // 结束编辑ToolStripMenuItem.Enabled = false;
             //xu_Layer lay=all_hero.allLayers[tn.Index];
             //Form todatabase = new ToDataBase(lay, our_sql);
             //todatabase.Show();
@@ -390,15 +394,15 @@ namespace hero_GIS
             Form pro;
             switch(layer.Layer_type){
                 case wkbGeometryType.wkbPoint:
-                    pro = new property(layer.Layer_ID, layer.Layer_Name,"Point",layer.spatial_reference);
+                    pro = new property(layer.Layer_ID, layer.Layer_Name,"Point",layer.spatial_reference,layer.Layet_edit);
                     pro.Show();
                     break;
                 case wkbGeometryType.wkbLineString:
-                    pro = new property(layer.Layer_ID, layer.Layer_Name, "Line", layer.spatial_reference);
+                    pro = new property(layer.Layer_ID, layer.Layer_Name, "Line", layer.spatial_reference, layer.Layet_edit);
                     pro.Show();
                     break;
                 case wkbGeometryType.wkbPolygon25D:
-                    pro = new property(layer.Layer_ID, layer.Layer_Name, "Polygon", layer.spatial_reference);
+                    pro = new property(layer.Layer_ID, layer.Layer_Name, "Polygon", layer.spatial_reference, layer.Layet_edit);
                     pro.Show();
                     break;
             }
@@ -444,13 +448,40 @@ namespace hero_GIS
 
         private void 重命名ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form datebase = new ToDataBase(our_sql);
+            Form datebase = new ToDataBase(our_sql, add);
             datebase.Show();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        public void add(xu_Layer layer) {
+            all_hero.addLayer(layer);
+            TreeNode tn_root = treeView.Nodes[0];
+            tn_root.Checked = true;
+            TreeNode tn = tn_root.Nodes.Add(layer.Layer_Name);
+            tn.Checked = true;
+            tn.ContextMenuStrip = contextMenuStrip2;
+            treeView.ExpandAll();
+
+            reset();
+        
+        }
+
+        private void reset(){
+            g.Clear(panel1.BackColor);
+            List<int> who_true = new List<int>();
+            foreach (TreeNode node in treeView.Nodes[0].Nodes)
+            {
+                if (node.Checked == true)
+                    who_true.Add(node.Index);
+            }
+
+            all_hero.resetLayer(panel1.Width, panel1.Height, who_true);
+            all_hero.drawLayer(g);
+        
         }
     }
 

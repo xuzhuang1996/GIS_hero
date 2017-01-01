@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("图层");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("图层");
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.添加图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.新建图层ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +66,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.导出shapefile格式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
@@ -111,7 +112,7 @@
             this.区编辑ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1080, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(960, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -232,11 +233,11 @@
             this.treeView.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.treeView.Location = new System.Drawing.Point(14, 63);
             this.treeView.Name = "treeView";
-            treeNode1.ContextMenuStrip = this.contextMenuStrip1;
-            treeNode1.Name = "节点1";
-            treeNode1.Text = "图层";
+            treeNode4.ContextMenuStrip = this.contextMenuStrip1;
+            treeNode4.Name = "节点1";
+            treeNode4.Text = "图层";
             this.treeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1});
+            treeNode4});
             this.treeView.Size = new System.Drawing.Size(148, 427);
             this.treeView.TabIndex = 2;
             this.treeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCheck);
@@ -244,11 +245,10 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Window;
-            this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Location = new System.Drawing.Point(187, 63);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(872, 427);
+            this.panel1.Size = new System.Drawing.Size(752, 427);
             this.panel1.TabIndex = 3;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
@@ -262,9 +262,10 @@
             this.打开属性表ToolStripMenuItem,
             this.属性ToolStripMenuItem,
             this.要素编辑ToolStripMenuItem,
-            this.添加字段ToolStripMenuItem});
+            this.添加字段ToolStripMenuItem,
+            this.导出shapefile格式ToolStripMenuItem});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(137, 114);
+            this.contextMenuStrip2.Size = new System.Drawing.Size(177, 158);
             // 
             // 移除ToolStripMenuItem
             // 
@@ -292,7 +293,7 @@
             this.开始编辑ToolStripMenuItem,
             this.结束编辑ToolStripMenuItem});
             this.要素编辑ToolStripMenuItem.Name = "要素编辑ToolStripMenuItem";
-            this.要素编辑ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.要素编辑ToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
             this.要素编辑ToolStripMenuItem.Text = "要素编辑";
             // 
             // 开始编辑ToolStripMenuItem
@@ -305,7 +306,7 @@
             // 结束编辑ToolStripMenuItem
             // 
             this.结束编辑ToolStripMenuItem.Name = "结束编辑ToolStripMenuItem";
-            this.结束编辑ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.结束编辑ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.结束编辑ToolStripMenuItem.Text = "结束编辑";
             this.结束编辑ToolStripMenuItem.Click += new System.EventHandler(this.结束编辑ToolStripMenuItem_Click);
             // 
@@ -320,7 +321,7 @@
             // 
             this.button1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(784, 31);
+            this.button1.Location = new System.Drawing.Point(687, 28);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(26, 31);
             this.button1.TabIndex = 4;
@@ -331,7 +332,7 @@
             // 
             this.full_extent.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.full_extent.Image = ((System.Drawing.Image)(resources.GetObject("full_extent.Image")));
-            this.full_extent.Location = new System.Drawing.Point(829, 31);
+            this.full_extent.Location = new System.Drawing.Point(732, 28);
             this.full_extent.Name = "full_extent";
             this.full_extent.Size = new System.Drawing.Size(26, 31);
             this.full_extent.TabIndex = 5;
@@ -360,7 +361,7 @@
             // 
             this.button2.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(873, 31);
+            this.button2.Location = new System.Drawing.Point(776, 28);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(26, 31);
             this.button2.TabIndex = 8;
@@ -372,7 +373,7 @@
             // 
             this.button3.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.button3.Image = ((System.Drawing.Image)(resources.GetObject("button3.Image")));
-            this.button3.Location = new System.Drawing.Point(918, 31);
+            this.button3.Location = new System.Drawing.Point(821, 28);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(26, 31);
             this.button3.TabIndex = 6;
@@ -383,7 +384,7 @@
             // 
             this.button4.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
-            this.button4.Location = new System.Drawing.Point(961, 31);
+            this.button4.Location = new System.Drawing.Point(864, 28);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(26, 31);
             this.button4.TabIndex = 9;
@@ -395,12 +396,18 @@
             this.button5.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button5.Image = ((System.Drawing.Image)(resources.GetObject("button5.Image")));
-            this.button5.Location = new System.Drawing.Point(1004, 31);
+            this.button5.Location = new System.Drawing.Point(907, 28);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(26, 31);
             this.button5.TabIndex = 10;
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // 导出shapefile格式ToolStripMenuItem
+            // 
+            this.导出shapefile格式ToolStripMenuItem.Name = "导出shapefile格式ToolStripMenuItem";
+            this.导出shapefile格式ToolStripMenuItem.Size = new System.Drawing.Size(176, 22);
+            this.导出shapefile格式ToolStripMenuItem.Text = "导出shapefile格式";
             // 
             // Form1
             // 
@@ -408,7 +415,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PowderBlue;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1080, 523);
+            this.ClientSize = new System.Drawing.Size(960, 532);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -472,6 +479,7 @@
         private System.Windows.Forms.ToolStripMenuItem 新建文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 打开工程或文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 退出系统ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 导出shapefile格式ToolStripMenuItem;
     }
 }
 
