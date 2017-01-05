@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using OSGeo.OGR;
+using System.Globalization;
+using System.Threading;
 
 namespace hero_GIS
 {
@@ -21,7 +23,7 @@ namespace hero_GIS
         public Form1(zhang_sql sql)
        // public Form1()
         {
-            
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
             InitializeComponent();
             //激活双缓冲技术
             SetStyle(ControlStyles.UserPaint, true);
@@ -34,7 +36,29 @@ namespace hero_GIS
             //不清楚具体用处
            // panel1.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(panel1, true, null);
         }
-
+        //多语言
+        private void ApplyResource()
+        {
+            System.ComponentModel.ComponentResourceManager res = new ComponentResourceManager(typeof(Form1));
+            foreach (Control ctl in Controls)
+            {
+                res.ApplyResources(ctl, ctl.Name);
+            }
+            foreach (ToolStripMenuItem item in this.menuStrip1.Items)
+            {
+                res.ApplyResources(item, item.Name);
+                foreach (ToolStripMenuItem subItem in item.DropDownItems)
+                {
+                    res.ApplyResources(subItem, subItem.Name);
+                }
+            }
+            res.ApplyResources(this, "$this");
+        }
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void 添加图层ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
@@ -491,6 +515,30 @@ namespace hero_GIS
             all_hero.resetLayer(panel1.Width, panel1.Height, who_true);
             all_hero.drawLayer(g);
         
+        }
+
+        private void 修改颜色ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode tn = treeView.SelectedNode;
+            xu_Layer layer = all_hero.allLayers[tn.Index];
+            ColorDialog MyDialog = new ColorDialog();
+            MyDialog.AllowFullOpen = true;
+            // Allows the user to get help. (The default is false.)
+            MyDialog.ShowHelp = true;
+            //col = new Color();
+            // Sets the initial color select to the current text color.
+            //MyDialog.Color = col;
+            //   curPen = new Pen(button1.ForeColor, 1);//定义一个变换确定并要绘制时所用的画笔
+            // Update the text box color if the user clicks OK 
+            if (MyDialog.ShowDialog() == DialogResult.OK)
+            {
+                layer.Layer_pen = new Pen(MyDialog.Color);
+                all_hero.drawLayer(g);
+
+            }
+
+            
+           
         }
     }
 

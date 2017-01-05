@@ -265,7 +265,7 @@ namespace hero_GIS
             bitmap = new Bitmap(panel.Width, panel.Height, panel.CreateGraphics());//创建临时位图
             g0 = panel.CreateGraphics();
             a = 0;
-            curPen = new Pen(Color.YellowGreen, 1);//定义一个变换确定并要绘制时所用的画笔
+            curPen = layer.Layer_pen;//定义一个变换确定并要绘制时所用的画笔
             clr = panel.BackColor;//获取窗体背景色
             p1 = new Pen(clr, 1);
             for (int i = 0; i < 1000; i++)
@@ -485,7 +485,7 @@ namespace hero_GIS
             bitmap = new Bitmap(panel.Width, panel.Height, panel.CreateGraphics());//创建临时位图
             g0 = panel.CreateGraphics();
             a = 0;
-            curPen = new Pen(Color.YellowGreen, 1);//定义一个变换确定并要绘制时所用的画笔
+            curPen = layer.Layer_pen;//定义一个变换确定并要绘制时所用的画笔
             clr = panel.BackColor;//获取窗体背景色
             p1 = new Pen(clr, 1);
             for (int i = 0; i < 1000; i++)

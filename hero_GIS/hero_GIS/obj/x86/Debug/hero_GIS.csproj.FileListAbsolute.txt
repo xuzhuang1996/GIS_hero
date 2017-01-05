@@ -26,3 +26,9 @@ F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.new_layer.resources
 F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.LogIn.resources
 F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.property.resources
 F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.ToDataBase.resources
+F:\mygitwork\hero_GIS\hero_GIS\bin\Debug\en-US\hero_GIS.resources.dll
+F:\mygitwork\hero_GIS\hero_GIS\bin\Debug\zh-CN\hero_GIS.resources.dll
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.Form1.en-US.resources
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\hero_GIS.Form1.zh-CN.resources
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\en-US\hero_GIS.resources.dll
+F:\mygitwork\hero_GIS\hero_GIS\obj\x86\Debug\zh-CN\hero_GIS.resources.dll
