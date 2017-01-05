@@ -23,7 +23,9 @@ namespace hero_GIS
         public Form1(zhang_sql sql)
        // public Form1()
         {
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
+            //if (chinese) Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
+            //else Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
             InitializeComponent();
             //激活双缓冲技术
             SetStyle(ControlStyles.UserPaint, true);
@@ -36,7 +38,7 @@ namespace hero_GIS
             //不清楚具体用处
            // panel1.GetType().GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).SetValue(panel1, true, null);
         }
-        //多语言
+        /*多语言
         private void ApplyResource()
         {
             System.ComponentModel.ComponentResourceManager res = new ComponentResourceManager(typeof(Form1));
@@ -53,9 +55,9 @@ namespace hero_GIS
                 }
             }
             res.ApplyResources(this, "$this");
-        }
+        }*/
         /// <summary>
-        /// /////////////////////////////////////////////////////////////////////////////////////////////////
+        /// ////////////////////////////////////////////////////////////////////////////////////////////////*/
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

@@ -25,6 +25,10 @@ namespace hero_GIS
         {
             //string connection = "Data Source=" + DataBase.Text + ";User ID=" + UserName.Text + ";Password=" + Password.Text+";";
             our_sql = new zhang_sql(UserName.Text, Password.Text, DataBase.Text);
+            //bool chinese;
+            //if (comboBox1.Text == "汉语") chinese = true;
+            //else chinese = false;
+            //Form form1 = new Form1(our_sql,chinese);
             Form form1 = new Form1(our_sql);
             this.Hide();
             form1.Show();
